@@ -53,11 +53,11 @@
 <footer class="mt-24 border-t border-border-grey py-12 px-4 bg-soft-grey/30">
 	<div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
 		<div class="flex flex-col items-center md:items-start gap-2">
-			<div class="flex items-center gap-2 text-slate-400">
+			<div class="flex items-center gap-2 text-slate-500">
 				<span class="material-symbols-outlined text-xl">verified</span>
 				<span class="text-sm font-semibold tracking-wide">IMAGE TO PDF v1.0.0</span>
 			</div>
-			<p class="text-[11px] text-slate-400">Designed with security and simplicity in mind.</p>
+			<p class="text-xs text-slate-500">Designed with security and simplicity in mind.</p>
 		</div>
 
 		<div class="flex gap-10">

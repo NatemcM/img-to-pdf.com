@@ -44,13 +44,13 @@
 	<div class="flex items-center justify-between mb-8">
 		<h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
 			Selected Images
-			<span class="text-xs font-semibold bg-slate-100 text-slate-500 px-3 py-1 rounded-full border border-border-grey">
+			<span class="text-xs font-semibold bg-slate-100 text-slate-600 px-3 py-1 rounded-full border border-border-grey">
 				{appState.images.length} file{appState.images.length !== 1 ? 's' : ''}
 			</span>
 		</h3>
 		<button
 			onclick={clearAll}
-			class="text-sm font-medium text-slate-400 hover:text-red-500 flex items-center gap-1 transition-colors"
+			class="text-sm font-medium text-slate-500 hover:text-red-500 flex items-center gap-1 transition-colors"
 		>
 			<span class="material-symbols-outlined text-lg">delete</span>
 			Clear All

@@ -20,7 +20,7 @@
 	<!-- Hero -->
 	<div class="text-center mb-12">
 		<h2 class="text-4xl font-extrabold text-slate-900 mb-4">Convert Images to PDF</h2>
-		<p class="text-slate-500 max-w-xl mx-auto text-lg">Fast, high-quality conversion for JPG, PNG, and WEBP formats.</p>
+		<p class="text-slate-600 max-w-xl mx-auto text-lg">Fast, high-quality conversion for JPG, PNG, and WEBP formats.</p>
 	</div>
 
 	<!-- Error message -->

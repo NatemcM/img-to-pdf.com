@@ -57,7 +57,7 @@
 		{/if}
 	</button>
 
-	<div class="flex items-center justify-center gap-4 text-xs text-slate-400">
+	<div class="flex items-center justify-center gap-4 text-xs text-slate-500">
 		<span class="flex items-center gap-1">
 			<span class="material-symbols-outlined text-[14px]">lock</span> 100% Secure
 		</span>
@@ -69,7 +69,7 @@
 		</span>
 	</div>
 
-	<p class="text-center text-xs text-slate-400 max-w-lg mx-auto leading-relaxed">
+	<p class="text-center text-xs text-slate-500 max-w-lg mx-auto leading-relaxed">
 		By clicking &quot;Generate&quot;, you agree to our <a class="underline hover:text-primary transition-colors" href="/terms">Terms</a>. We respect your privacy: images are deleted from browser memory upon closing this tab.
 	</p>
 </div>

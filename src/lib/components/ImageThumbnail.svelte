@@ -20,7 +20,7 @@
 	</button>
 
 	<!-- Number badge -->
-	<div class="absolute top-2 left-2 bg-white/90 backdrop-blur text-slate-900 text-[10px] font-bold px-2 py-1 rounded-md border border-border-grey">
+	<div class="absolute top-2 left-2 bg-white/90 backdrop-blur text-slate-900 text-xs font-bold px-2 py-1 rounded-md border border-border-grey">
 		#{number}
 	</div>
 

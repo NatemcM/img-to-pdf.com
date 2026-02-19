@@ -23,7 +23,7 @@
 					value={appState.pdfFilename}
 					oninput={(e) => setFilename(e.target.value)}
 				/>
-				<span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">.pdf</span>
+				<span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm font-medium">.pdf</span>
 			</div>
 		</div>
 
@@ -47,10 +47,10 @@
 			<div class="flex flex-col gap-2.5 md:col-span-2">
 				<label class="text-sm font-bold text-slate-700 ml-1 flex items-center gap-1" for="email">
 					Email Address
-					<span class="text-slate-400 text-xs font-normal">(optional)</span>
+					<span class="text-slate-500 text-xs font-normal">(optional)</span>
 				</label>
 				<div class="relative group">
-					<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">mail</span>
+					<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500">mail</span>
 					<input
 						class="w-full pl-12 pr-4 py-4 bg-white border border-border-grey rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-slate-900"
 						id="email"
@@ -60,7 +60,7 @@
 						oninput={(e) => setEmail(e.target.value)}
 					/>
 				</div>
-				<p class="text-xs text-slate-400 mt-1 pl-1">Receive a confirmation email when your PDF is generated.</p>
+				<p class="text-xs text-slate-500 mt-1 pl-1">Receive a confirmation email when your PDF is generated.</p>
 			</div>
 		{/if}
 	</div>

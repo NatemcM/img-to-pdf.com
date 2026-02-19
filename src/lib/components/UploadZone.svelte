@@ -73,7 +73,7 @@
 			<span class="material-symbols-outlined text-4xl">cloud_upload</span>
 		</div>
 		<h3 class="text-xl font-bold text-slate-800 mb-2">Drag and drop images here</h3>
-		<p class="text-sm text-slate-500 mb-8">Up to 20 images per PDF &bull; Max 20MB per file</p>
+		<p class="text-sm text-slate-600 mb-8">Up to 20 images per PDF &bull; Max 20MB per file</p>
 		<span class="px-8 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover shadow-md hover:shadow-lg transition-all flex items-center gap-2">
 			<span class="material-symbols-outlined">add_photo_alternate</span>
 			Select Files

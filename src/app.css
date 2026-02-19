@@ -2,14 +2,14 @@
 
 @theme {
 	--font-display: 'Inter', sans-serif;
-	--color-primary: #736CED;
-	--color-primary-hover: #5b54d4;
+	--color-primary: #5B52E0;
+	--color-primary-hover: #4A41C9;
 	--color-bg-light: #f6f6f8;
 	--color-soft-grey: #F1F5F9;
 	--color-border-grey: #E2E8F0;
 	--color-safety-bg: #F0FDF4;
 	--color-safety-text: #166534;
-	--color-teal-accent: #2DD4BF;
+	--color-teal-accent: #0F9D8A;
 	--color-blue-accent: #60A5FA;
 }
 
