@@ -10,34 +10,38 @@
 		try {
 			setError('');
 			const pdfBytes = await generatePdf();
-			const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-			downloadBlob(blob, `${appState.pdfFilename || 'combined'}.pdf`);
+			const filename = `${appState.pdfFilename || 'combined'}.pdf`;
 
 			if (hasEmail) {
-				await sendEmailNotification();
+				await sendPdfByEmail(pdfBytes, filename);
+			} else {
+				const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+				downloadBlob(blob, filename);
 			}
 		} catch (err) {
 			setError(`PDF generation failed: ${err.message}`);
 		}
 	}
 
-	async function sendEmailNotification() {
-		try {
-			const response = await fetch('/api/send-email', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					email: appState.email,
-					filename: `${appState.pdfFilename || 'combined'}.pdf`
-				})
-			});
+	async function sendPdfByEmail(pdfBytes, filename) {
+		const base64 = btoa(
+			pdfBytes.reduce((data, byte) => data + String.fromCharCode(byte), '')
+		);
 
-			if (!response.ok) {
-				const data = await response.json();
-				console.warn('Email send failed:', data.message);
-			}
-		} catch {
-			console.warn('Email notification could not be sent.');
+		const response = await fetch('/api/send-email', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				email: appState.email,
+				filename,
+				pdfData: base64
+			})
+		});
+
+		const data = await response.json();
+
+		if (!response.ok) {
+			throw new Error(data.message || 'Failed to send email.');
 		}
 	}
 </script>
@@ -51,6 +55,9 @@
 		{#if appState.isGenerating}
 			<div class="animate-spin rounded-full h-6 w-6 border-3 border-white border-t-transparent"></div>
 			Generating PDF... {appState.progress}%
+		{:else if hasEmail}
+			<span class="material-symbols-outlined text-2xl">send</span>
+			Send to Email
 		{:else}
 			<span class="material-symbols-outlined text-2xl">download</span>
 			Generate &amp; Download PDF

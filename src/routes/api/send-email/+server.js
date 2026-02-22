@@ -77,6 +77,23 @@ export async function POST({ request, getClientAddress }) {
 	// --- VULN-005 FIX: Sanitize filename server-side ---
 	const filename = sanitizeFilename(body.filename);
 
+	// Validate PDF attachment data
+	const pdfData = typeof body.pdfData === 'string' ? body.pdfData : '';
+	if (!pdfData) {
+		return error(400, { message: 'PDF data is required.' });
+	}
+
+	// Limit attachment size (10MB base64 ≈ ~7.5MB raw)
+	const MAX_PDF_BASE64_SIZE = 10 * 1024 * 1024;
+	if (pdfData.length > MAX_PDF_BASE64_SIZE) {
+		return error(400, { message: 'PDF file is too large to send by email.' });
+	}
+
+	// Validate base64 format
+	if (!/^[A-Za-z0-9+/=]+$/.test(pdfData)) {
+		return error(400, { message: 'Invalid PDF data.' });
+	}
+
 	if (!env.RESEND_API_KEY) {
 		return json({ success: false, message: 'Email service not configured.' }, { status: 503 });
 	}
@@ -86,6 +103,7 @@ export async function POST({ request, getClientAddress }) {
 
 		// --- VULN-001 FIX: HTML-escape filename before interpolation ---
 		const safeFilename = escapeHtml(filename);
+		const pdfBuffer = Buffer.from(pdfData, 'base64');
 
 		await resend.emails.send({
 			from: 'img-to-pdf <noreply@img-to-pdf.com>',
@@ -93,19 +111,22 @@ export async function POST({ request, getClientAddress }) {
 			subject: `Your PDF is ready: ${filename}`,
 			html: `
 				<h2>Your PDF has been generated!</h2>
-				<p>Your file <strong>${safeFilename}</strong> was created using
+				<p>Your file <strong>${safeFilename}</strong> is attached to this email.</p>
+				<p>It was created using
 				   <a href="https://img-to-pdf.com">img-to-pdf.com</a>.</p>
-				<p>Since your PDF was generated entirely in your browser, we don't
-				   have a copy of it. This email is a confirmation that you used our
-				   service.</p>
-				<p>If you need to recreate your PDF, visit
-				   <a href="https://img-to-pdf.com">img-to-pdf.com</a> and upload
-				   your images again.</p>
+				<p>Need to create another PDF? Visit
+				   <a href="https://img-to-pdf.com">img-to-pdf.com</a> anytime.</p>
 				<hr />
 				<p style="color: #666; font-size: 12px;">
-					img-to-pdf.com &mdash; Your images never leave your device.
+					img-to-pdf.com
 				</p>
-			`
+			`,
+			attachments: [
+				{
+					filename,
+					content: pdfBuffer
+				}
+			]
 		});
 
 		return json({ success: true, message: 'Email sent successfully.' });
