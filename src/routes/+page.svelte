@@ -4,7 +4,7 @@
 	import ImageGrid from '$lib/components/ImageGrid.svelte';
 	import SettingsForm from '$lib/components/SettingsForm.svelte';
 	import GenerateButton from '$lib/components/GenerateButton.svelte';
-	import { appState, setError } from '$lib/stores/app-state.svelte.js';
+	import { appState, setError, setSuccess } from '$lib/stores/app-state.svelte.js';
 
 	let { data } = $props();
 </script>
@@ -22,6 +22,17 @@
 		<h2 class="text-4xl font-extrabold text-slate-900 mb-4">Convert Images to PDF</h2>
 		<p class="text-slate-600 max-w-xl mx-auto text-lg">Fast, high-quality conversion for JPG, PNG, and WEBP formats.</p>
 	</div>
+
+	<!-- Success message -->
+	{#if appState.successMessage}
+		<div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl flex items-center gap-3 text-green-700">
+			<span class="material-symbols-outlined">check_circle</span>
+			<p class="text-sm flex-1">{appState.successMessage}</p>
+			<button onclick={() => setSuccess('')} class="text-green-400 hover:text-green-600">
+				<span class="material-symbols-outlined text-lg">close</span>
+			</button>
+		</div>
+	{/if}
 
 	<!-- Error message -->
 	{#if appState.errorMessage}

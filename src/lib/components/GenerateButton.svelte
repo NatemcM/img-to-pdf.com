@@ -1,25 +1,32 @@
 <script>
-	import { appState, setError } from '$lib/stores/app-state.svelte.js';
+	import { appState, setError, setSuccess, setIsSendingEmail } from '$lib/stores/app-state.svelte.js';
 	import { generatePdf } from '$lib/utils/pdf-generator.js';
 	import { downloadBlob } from '$lib/utils/file-helpers.js';
 
-	let canGenerate = $derived(appState.images.length > 0 && !appState.isGenerating);
+	let canGenerate = $derived(appState.images.length > 0 && !appState.isGenerating && !appState.isSendingEmail);
 	let hasEmail = $derived(appState.email.trim().length > 0);
 
 	async function handleGenerate() {
 		try {
 			setError('');
+			setSuccess('');
 			const pdfBytes = await generatePdf();
 			const filename = `${appState.pdfFilename || 'combined'}.pdf`;
 
 			if (hasEmail) {
-				await sendPdfByEmail(pdfBytes, filename);
+				setIsSendingEmail(true);
+				try {
+					await sendPdfByEmail(pdfBytes, filename);
+					setSuccess(`PDF sent to ${appState.email}`);
+				} finally {
+					setIsSendingEmail(false);
+				}
 			} else {
 				const blob = new Blob([pdfBytes], { type: 'application/pdf' });
 				downloadBlob(blob, filename);
 			}
 		} catch (err) {
-			setError(`PDF generation failed: ${err.message}`);
+			setError(err.message);
 		}
 	}
 
@@ -55,6 +62,9 @@
 		{#if appState.isGenerating}
 			<div class="animate-spin rounded-full h-6 w-6 border-3 border-white border-t-transparent"></div>
 			Generating PDF... {appState.progress}%
+		{:else if appState.isSendingEmail}
+			<div class="animate-spin rounded-full h-6 w-6 border-3 border-white border-t-transparent"></div>
+			Sending to {appState.email}...
 		{:else if hasEmail}
 			<span class="material-symbols-outlined text-2xl">send</span>
 			Send to Email

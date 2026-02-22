@@ -69,9 +69,17 @@ export async function POST({ request, getClientAddress }) {
 	}
 
 	// --- VULN-003 FIX: Stronger email validation with length check ---
-	const email = typeof body.email === 'string' ? body.email.trim() : '';
+	const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
 	if (!email || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
 		return error(400, { message: 'A valid email address is required.' });
+	}
+
+	// Restrict to allowed recipient if configured
+	if (env.ALLOWED_EMAIL) {
+		const allowed = env.ALLOWED_EMAIL.toLowerCase();
+		if (email !== allowed) {
+			return json({ success: false, message: 'This email address is not authorized to receive PDFs.' }, { status: 403 });
+		}
 	}
 
 	// --- VULN-005 FIX: Sanitize filename server-side ---

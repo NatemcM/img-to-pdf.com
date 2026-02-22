@@ -11,8 +11,10 @@ export const appState = $state({
 	pageSize: 'a4',
 	email: '',
 	isGenerating: false,
+	isSendingEmail: false,
 	progress: 0,
-	errorMessage: ''
+	errorMessage: '',
+	successMessage: ''
 });
 
 // --- Actions ---
@@ -92,7 +94,17 @@ export function setProgress(val) {
 	appState.progress = val;
 }
 
+/** @param {boolean} val */
+export function setIsSendingEmail(val) {
+	appState.isSendingEmail = val;
+}
+
 /** @param {string} msg */
 export function setError(msg) {
 	appState.errorMessage = msg;
+}
+
+/** @param {string} msg */
+export function setSuccess(msg) {
+	appState.successMessage = msg;
 }
