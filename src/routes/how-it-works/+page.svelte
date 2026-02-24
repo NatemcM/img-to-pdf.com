@@ -1,3 +1,7 @@
+<script>
+  import { ShieldCheck, FileUp, AlignJustify, CircleCheckBig, CloudOff, EyeOff, Gauge, ArrowRight } from 'lucide-svelte';
+</script>
+
 <svelte:head>
   <title>How It Works &mdash; img-to-pdf.com</title>
   <meta
@@ -12,7 +16,7 @@
     <div
       class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-accent/10 text-teal-accent border border-teal-accent/20 mb-6"
     >
-      <span class="material-symbols-outlined text-sm">shield_lock</span>
+      <ShieldCheck size={14} />
       <span class="text-xs font-bold uppercase tracking-wider"
         >100% Privacy Focused</span
       >
@@ -39,7 +43,7 @@
       <div
         class="mb-6 w-20 h-20 rounded-2xl bg-teal-accent/10 flex items-center justify-center text-teal-accent group-hover:scale-110 transition-transform"
       >
-        <span class="material-symbols-outlined text-4xl">upload_file</span>
+        <FileUp size={36} />
       </div>
       <div
         class="absolute -top-4 -left-4 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg shadow-md"
@@ -60,7 +64,7 @@
       <div
         class="mb-6 w-20 h-20 rounded-2xl bg-blue-accent/10 flex items-center justify-center text-blue-accent group-hover:scale-110 transition-transform"
       >
-        <span class="material-symbols-outlined text-4xl">reorder</span>
+        <AlignJustify size={36} />
       </div>
       <div
         class="absolute -top-4 -left-4 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg shadow-md"
@@ -81,7 +85,7 @@
       <div
         class="mb-6 w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform"
       >
-        <span class="material-symbols-outlined text-4xl">task_alt</span>
+        <CircleCheckBig size={36} />
       </div>
       <div
         class="absolute -top-4 -left-4 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg shadow-md"
@@ -106,9 +110,7 @@
       <div
         class="w-24 h-24 lg:w-36 lg:h-36 bg-primary rounded-full flex items-center justify-center text-white"
       >
-        <span class="material-symbols-outlined text-5xl lg:text-7xl"
-          >verified_user</span
-        >
+        <ShieldCheck class="w-12 h-12 lg:w-18 lg:h-18" />
       </div>
     </div>
     <div class="text-center lg:text-left">
@@ -125,25 +127,19 @@
         <div
           class="flex items-center gap-2 text-sm font-semibold text-slate-600 bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200"
         >
-          <span class="material-symbols-outlined text-primary text-base"
-            >cloud_off</span
-          >
+          <CloudOff size={16} class="text-primary" />
           No Server Uploads
         </div>
         <div
           class="flex items-center gap-2 text-sm font-semibold text-slate-600 bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200"
         >
-          <span class="material-symbols-outlined text-primary text-base"
-            >visibility_off</span
-          >
+          <EyeOff size={16} class="text-primary" />
           Zero Tracking
         </div>
         <div
           class="flex items-center gap-2 text-sm font-semibold text-slate-600 bg-white/50 px-3 py-1.5 rounded-lg border border-slate-200"
         >
-          <span class="material-symbols-outlined text-primary text-base"
-            >speed</span
-          >
+          <Gauge size={16} class="text-primary" />
           Instant Results
         </div>
       </div>
@@ -157,7 +153,7 @@
       class="inline-flex items-center justify-center gap-3 px-10 py-5 bg-primary hover:bg-primary-hover text-white rounded-2xl font-black text-xl transition-all hover:scale-105 shadow-2xl shadow-primary/40 active:scale-95"
     >
       Got it, let's go!
-      <span class="material-symbols-outlined">arrow_forward</span>
+      <ArrowRight size={24} />
     </a>
     <p class="mt-6 text-sm text-slate-500">
       Ready to convert? Click above to return to the converter.

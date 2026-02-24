@@ -1,3 +1,7 @@
+<script>
+  import { ArrowLeft } from 'lucide-svelte';
+</script>
+
 <svelte:head>
   <title>Terms &amp; Conditions &mdash; img-to-pdf.com</title>
   <meta
@@ -173,7 +177,7 @@
       href="/"
       class="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover shadow-md transition-all"
     >
-      <span class="material-symbols-outlined">arrow_back</span>
+      <ArrowLeft size={24} />
       Back to Converter
     </a>
   </div>

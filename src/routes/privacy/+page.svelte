@@ -1,3 +1,7 @@
+<script>
+  import { Heart, ArrowLeft } from 'lucide-svelte';
+</script>
+
 <svelte:head>
   <title>Privacy Policy &mdash; img-to-pdf.com</title>
   <meta
@@ -15,7 +19,7 @@
   <!-- The fun opener -->
   <div class="p-6 bg-safety-bg border border-green-100 rounded-2xl mb-12">
     <h3 class="text-lg font-bold text-safety-text mb-2 flex items-center gap-2">
-      <span class="material-symbols-outlined">favorite</span>
+      <Heart size={24} />
       The short version
     </h3>
     <p class="text-slate-700 leading-relaxed">
@@ -137,7 +141,7 @@
       href="/"
       class="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover shadow-md transition-all"
     >
-      <span class="material-symbols-outlined">arrow_back</span>
+      <ArrowLeft size={24} />
       Back to Converter
     </a>
   </div>

@@ -1,6 +1,7 @@
 <script>
 	import { appState, addImages, setError } from '$lib/stores/app-state.svelte.js';
 	import { validateFile } from '$lib/utils/file-helpers.js';
+	import { CloudUpload, ImagePlus } from 'lucide-svelte';
 
 	let isDragging = $state(false);
 	let fileInput;
@@ -70,12 +71,12 @@
 		onclick={() => fileInput.click()}
 	>
 		<div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-primary mb-5 group-hover:scale-110 transition-transform">
-			<span class="material-symbols-outlined text-4xl">cloud_upload</span>
+			<CloudUpload size={36} />
 		</div>
 		<h3 class="text-xl font-bold text-slate-800 mb-2">Drag and drop images here</h3>
 		<p class="text-sm text-slate-600 mb-8">Up to 20 images per PDF &bull; Max 20MB per file</p>
 		<span class="px-8 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover shadow-md hover:shadow-lg transition-all flex items-center gap-2">
-			<span class="material-symbols-outlined">add_photo_alternate</span>
+			<ImagePlus size={24} />
 			Select Files
 		</span>
 	</button>

@@ -3,6 +3,7 @@
 	import Sortable from 'sortablejs';
 	import { appState, reorderImages, clearAll } from '$lib/stores/app-state.svelte.js';
 	import ImageThumbnail from './ImageThumbnail.svelte';
+	import { Trash2, X } from 'lucide-svelte';
 
 	let gridElement;
 	let sortableInstance;
@@ -52,7 +53,7 @@
 			onclick={clearAll}
 			class="text-sm font-medium text-slate-500 hover:text-red-500 flex items-center gap-1 transition-colors"
 		>
-			<span class="material-symbols-outlined text-lg">delete</span>
+			<Trash2 size={18} />
 			Clear All
 		</button>
 	</div>
@@ -94,7 +95,7 @@
 				class="absolute -top-3 -right-3 w-9 h-9 flex items-center justify-center bg-white text-slate-700 rounded-full shadow-lg hover:bg-red-500 hover:text-white transition-colors"
 				aria-label="Close preview"
 			>
-				<span class="material-symbols-outlined text-lg">close</span>
+				<X size={18} />
 			</button>
 		</div>
 	</div>

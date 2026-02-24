@@ -1,4 +1,6 @@
 <script>
+	import { BadgeCheck, Mail, Link, Share2 } from 'lucide-svelte';
+
 	const siteUrl = 'https://img-to-pdf.com';
 	const shareText = 'Convert images to PDF privately in your browser — no uploads, no tracking.';
 
@@ -54,7 +56,7 @@
 	<div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
 		<div class="flex flex-col items-center md:items-start gap-2">
 			<div class="flex items-center gap-2 text-slate-500">
-				<span class="material-symbols-outlined text-xl">verified</span>
+				<BadgeCheck size={20} />
 				<span class="text-sm font-semibold tracking-wide">IMAGE TO PDF v1.0.0</span>
 			</div>
 			<p class="text-xs text-slate-500">Designed with security and simplicity in mind.</p>
@@ -93,12 +95,12 @@
 						X (Twitter)
 					</button>
 					<button onclick={shareEmail} class="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-600 hover:bg-soft-grey transition-colors">
-						<span class="material-symbols-outlined text-xl text-slate-500">mail</span>
+						<Mail size={20} class="text-slate-500" />
 						Email
 					</button>
 					<div class="border-t border-border-grey my-1"></div>
 					<button onclick={copyLink} class="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-600 hover:bg-soft-grey transition-colors">
-						<span class="material-symbols-outlined text-xl text-slate-500">link</span>
+						<Link size={20} class="text-slate-500" />
 						Copy Link
 					</button>
 				</div>
@@ -111,7 +113,7 @@
 				class:!text-primary={showShare}
 				aria-label="Share"
 			>
-				<span class="material-symbols-outlined text-xl">share</span>
+				<Share2 size={20} />
 			</button>
 
 			{#if copiedFeedback}

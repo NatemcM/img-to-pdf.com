@@ -1,3 +1,7 @@
+<script>
+  import { FileText, ShieldCheck } from 'lucide-svelte';
+</script>
+
 <header
   class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-border-grey"
 >
@@ -8,9 +12,7 @@
         class="flex items-center gap-3"
       >
         <div class="bg-primary p-2 rounded-lg text-white shadow-sm">
-          <span class="material-symbols-outlined block text-2xl mb-0"
-            >picture_as_pdf</span
-          >
+          <FileText size={24} />
         </div>
         <h1 class="text-xl font-bold tracking-tight text-slate-900">
           PDF Converter
@@ -32,7 +34,7 @@
         <div
           class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-safety-bg text-safety-text rounded-full border border-green-200"
         >
-          <span class="material-symbols-outlined text-sm">verified_user</span>
+          <ShieldCheck size={14} />
           <span class="text-xs font-bold uppercase tracking-wider"
             >On-Device Processing</span
           >

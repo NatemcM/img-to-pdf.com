@@ -5,6 +5,7 @@
 	import SettingsForm from '$lib/components/SettingsForm.svelte';
 	import GenerateButton from '$lib/components/GenerateButton.svelte';
 	import { appState, setError, setSuccess } from '$lib/stores/app-state.svelte.js';
+	import { CheckCircle, X, AlertCircle } from 'lucide-svelte';
 
 	let { data } = $props();
 </script>
@@ -26,10 +27,10 @@
 	<!-- Success message -->
 	{#if appState.successMessage}
 		<div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl flex items-center gap-3 text-green-700">
-			<span class="material-symbols-outlined">check_circle</span>
+			<CheckCircle size={24} />
 			<p class="text-sm flex-1">{appState.successMessage}</p>
 			<button onclick={() => setSuccess('')} class="text-green-400 hover:text-green-600">
-				<span class="material-symbols-outlined text-lg">close</span>
+				<X size={18} />
 			</button>
 		</div>
 	{/if}
@@ -37,10 +38,10 @@
 	<!-- Error message -->
 	{#if appState.errorMessage}
 		<div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-center gap-3 text-red-700">
-			<span class="material-symbols-outlined">error</span>
+			<AlertCircle size={24} />
 			<p class="text-sm flex-1">{appState.errorMessage}</p>
 			<button onclick={() => setError('')} class="text-red-400 hover:text-red-600">
-				<span class="material-symbols-outlined text-lg">close</span>
+				<X size={18} />
 			</button>
 		</div>
 	{/if}

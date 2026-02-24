@@ -1,12 +1,13 @@
 <script>
 	import { appState, setFilename, setPageSize, setEmail } from '$lib/stores/app-state.svelte.js';
+	import { SlidersHorizontal, Mail } from 'lucide-svelte';
 
 	let { emailEnabled = false } = $props();
 </script>
 
 <section class="bg-white border border-border-grey rounded-2xl p-6 sm:p-10 mb-12 shadow-sm">
 	<h3 class="text-xl font-bold mb-8 text-slate-900 flex items-center gap-2">
-		<span class="material-symbols-outlined text-primary">tune</span>
+		<SlidersHorizontal size={24} class="text-primary" />
 		Document Settings
 	</h3>
 
@@ -50,7 +51,7 @@
 					<span class="text-slate-500 text-xs font-normal">(optional)</span>
 				</label>
 				<div class="relative group">
-					<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-500">mail</span>
+					<span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 flex items-center"><Mail size={20} /></span>
 					<input
 						class="w-full pl-12 pr-4 py-4 bg-white border border-border-grey rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-slate-900"
 						id="email"

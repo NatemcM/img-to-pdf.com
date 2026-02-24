@@ -2,6 +2,7 @@
 	import { appState, setError, setSuccess, setIsSendingEmail } from '$lib/stores/app-state.svelte.js';
 	import { generatePdf } from '$lib/utils/pdf-generator.js';
 	import { downloadBlob } from '$lib/utils/file-helpers.js';
+	import { Send, Download, Lock, Zap, CheckCheck } from 'lucide-svelte';
 
 	let canGenerate = $derived(appState.images.length > 0 && !appState.isGenerating && !appState.isSendingEmail);
 	let hasEmail = $derived(appState.email.trim().length > 0);
@@ -66,23 +67,23 @@
 			<div class="animate-spin rounded-full h-6 w-6 border-3 border-white border-t-transparent"></div>
 			Sending to {appState.email}...
 		{:else if hasEmail}
-			<span class="material-symbols-outlined text-2xl">send</span>
+			<Send size={24} />
 			Send to Email
 		{:else}
-			<span class="material-symbols-outlined text-2xl">download</span>
+			<Download size={24} />
 			Generate &amp; Download PDF
 		{/if}
 	</button>
 
 	<div class="flex items-center justify-center gap-4 text-xs text-slate-500">
 		<span class="flex items-center gap-1">
-			<span class="material-symbols-outlined text-[14px]">lock</span> 100% Secure
+			<Lock size={14} /> 100% Secure
 		</span>
 		<span class="flex items-center gap-1">
-			<span class="material-symbols-outlined text-[14px]">bolt</span> Instant Processing
+			<Zap size={14} /> Instant Processing
 		</span>
 		<span class="flex items-center gap-1">
-			<span class="material-symbols-outlined text-[14px]">done_all</span> High Resolution
+			<CheckCheck size={14} /> High Resolution
 		</span>
 	</div>
 

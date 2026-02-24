@@ -1,5 +1,6 @@
 <script>
 	import { removeImage } from '$lib/stores/app-state.svelte.js';
+	import { X, GripVertical } from 'lucide-svelte';
 
 	let { image, number, onpreview } = $props();
 </script>
@@ -30,11 +31,11 @@
 		class="absolute top-2 right-2 w-7 h-7 flex items-center justify-center bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-sm hover:bg-red-600"
 		aria-label="Remove {image.name}"
 	>
-		<span class="material-symbols-outlined text-sm">close</span>
+		<X size={14} />
 	</button>
 
 	<!-- Drag handle -->
 	<div class="drag-handle absolute bottom-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab">
-		<span class="material-symbols-outlined text-white bg-slate-900/40 rounded-full p-1">drag_indicator</span>
+		<div class="text-white bg-slate-900/40 rounded-full p-1"><GripVertical size={20} /></div>
 	</div>
 </div>
