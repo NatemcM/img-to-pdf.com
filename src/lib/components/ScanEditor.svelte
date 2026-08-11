@@ -29,6 +29,7 @@
 	let sourceImg = null; // offscreen full-res image for processing
 	let debounceTimer;
 	let dragging = null; // corner key while dragging
+	let destroyed = false; // true once the modal has been unmounted
 
 	const scale = $derived(displayWidth / naturalWidth);
 	const quadValid = $derived(corners ? isValidQuad(corners) : false);
@@ -36,12 +37,14 @@
 	async function init() {
 		try {
 			await loadOpenCV();
+			if (destroyed) return;
 			sourceImg = new Image();
 			await new Promise((resolve, reject) => {
 				sourceImg.onload = resolve;
 				sourceImg.onerror = () => reject(new Error('Failed to load image'));
 				sourceImg.src = image.preview; // always the original, not the scan
 			});
+			if (destroyed) return;
 			naturalWidth = sourceImg.naturalWidth;
 			naturalHeight = sourceImg.naturalHeight;
 
@@ -50,10 +53,12 @@
 				filter = image.scanSettings.filter;
 			} else {
 				corners = (await detectCorners(sourceImg)) ?? defaultCorners(naturalWidth, naturalHeight);
+				if (destroyed) return;
 			}
 			status = 'ready';
 			refreshPreview();
 		} catch (err) {
+			if (destroyed) return;
 			status = 'error';
 			errorMessage = err.message;
 		}
@@ -62,6 +67,7 @@
 	onMount(() => {
 		init();
 		return () => {
+			destroyed = true;
 			clearTimeout(debounceTimer);
 			if (previewUrl) URL.revokeObjectURL(previewUrl);
 		};
@@ -77,12 +83,19 @@
 			}
 			try {
 				const blob = await warpAndFilter(sourceImg, $state.snapshot(corners), filter);
+				if (destroyed) {
+					// Modal was closed while this warp was in flight; bail out
+					// before creating an object URL so nothing needs revoking.
+					return;
+				}
 				if (previewUrl) URL.revokeObjectURL(previewUrl);
 				previewUrl = URL.createObjectURL(blob);
+				errorMessage = '';
 			} catch (err) {
+				if (destroyed) return;
 				errorMessage = err.message;
 			} finally {
-				previewPending = false;
+				if (!destroyed) previewPending = false;
 			}
 		}, 250);
 	}
@@ -178,6 +191,18 @@
 				</button>
 			</div>
 		{:else}
+			{#if errorMessage}
+				<div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm flex items-center justify-between gap-4">
+					<span>{errorMessage}</span>
+					<button
+						onclick={() => (errorMessage = '')}
+						class="shrink-0 w-6 h-6 flex items-center justify-center text-red-500 hover:bg-red-100 rounded-full"
+						aria-label="Dismiss error"
+					>
+						<X size={14} />
+					</button>
+				</div>
+			{/if}
 			<div class="grid sm:grid-cols-2 gap-6">
 				<!-- Corner adjustment pane -->
 				<div>
