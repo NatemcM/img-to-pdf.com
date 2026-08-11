@@ -30,6 +30,7 @@
 	let debounceTimer;
 	let dragging = null; // corner key while dragging
 	let destroyed = false; // true once the modal has been unmounted
+	let previewToken = 0; // increments per preview request; guards against stale warpAndFilter results
 
 	const scale = $derived(displayWidth / naturalWidth);
 	const quadValid = $derived(corners ? isValidQuad(corners) : false);
@@ -49,7 +50,7 @@
 			naturalHeight = sourceImg.naturalHeight;
 
 			if (image.scanSettings) {
-				corners = structuredClone(image.scanSettings.corners);
+				corners = $state.snapshot(image.scanSettings).corners;
 				filter = image.scanSettings.filter;
 			} else {
 				corners = (await detectCorners(sourceImg)) ?? defaultCorners(naturalWidth, naturalHeight);
@@ -81,21 +82,23 @@
 				previewPending = false;
 				return;
 			}
+			const token = ++previewToken;
 			try {
 				const blob = await warpAndFilter(sourceImg, $state.snapshot(corners), filter);
-				if (destroyed) {
-					// Modal was closed while this warp was in flight; bail out
-					// before creating an object URL so nothing needs revoking.
+				if (destroyed || token !== previewToken) {
+					// Modal was closed, or a newer preview request has superseded
+					// this one, while this warp was in flight; bail out before
+					// creating an object URL so nothing needs revoking.
 					return;
 				}
 				if (previewUrl) URL.revokeObjectURL(previewUrl);
 				previewUrl = URL.createObjectURL(blob);
 				errorMessage = '';
 			} catch (err) {
-				if (destroyed) return;
+				if (destroyed || token !== previewToken) return;
 				errorMessage = err.message;
 			} finally {
-				if (!destroyed) previewPending = false;
+				if (!destroyed && token === previewToken) previewPending = false;
 			}
 		}, 250);
 	}
