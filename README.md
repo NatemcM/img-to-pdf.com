@@ -7,6 +7,7 @@ A privacy-first image-to-PDF converter that runs entirely in your browser. No up
 - **100% Client-Side** — Images never leave your device. PDF generation happens in your browser using [pdf-lib](https://github.com/Hopding/pdf-lib) and the Canvas API.
 - **Drag & Drop** — Upload JPG, PNG, or WebP files by dragging them in or clicking to browse. Reorder pages with drag-and-drop powered by [SortableJS](https://github.com/SortableJS/Sortable).
 - **Page Size Options** — A4, US Letter, or Fit to Image.
+- **Document Scanning** — Turn photos of documents into clean scans: automatic edge detection, adjustable corners, perspective correction, and enhancement filters (color, grayscale, black & white). Powered by a self-hosted [OpenCV.js](https://docs.opencv.org/4.x/d5/d10/tutorial_js_root.html) build that loads only when you use it — still 100% in your browser.
 - **Optional Email Confirmation** — If configured, users can receive a one-time confirmation email via [Resend](https://resend.com). No mailing lists, no follow-ups.
 - **Security Hardened** — Rate-limited email endpoint, server-side input sanitization, CSP headers, and HTML escaping. See [SECURITY_AUDIT.md](SECURITY_AUDIT.md) for details.
 
@@ -17,7 +18,7 @@ A privacy-first image-to-PDF converter that runs entirely in your browser. No up
 | Framework | SvelteKit (Svelte 5) |
 | Styling | Tailwind CSS v4 |
 | PDF Engine | pdf-lib (client-side) |
-| Image Processing | Canvas API (resize + JPEG compression) |
+| Image Processing | Canvas API (resize + JPEG compression), OpenCV.js (document scanning, lazy-loaded) |
 | Drag & Drop | SortableJS |
 | Email | Resend (server-side, optional) |
 | Deployment | Vercel |
