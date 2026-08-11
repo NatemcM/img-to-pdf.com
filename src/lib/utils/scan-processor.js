@@ -75,33 +75,41 @@ export async function detectCorners(imgEl) {
 		cv.Canny(gray, edges, 75, 200);
 		// Close small gaps in edges so the paper outline forms one contour
 		const kernel = cv.Mat.ones(3, 3, cv.CV_8U);
-		cv.dilate(edges, edges, kernel);
-		kernel.delete();
+		try {
+			cv.dilate(edges, edges, kernel);
+		} finally {
+			kernel.delete();
+		}
 
 		cv.findContours(edges, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
 
 		const minArea = canvas.width * canvas.height * 0.1;
 		let bestArea = minArea;
 		for (let i = 0; i < contours.size(); i++) {
-			const contour = contours.get(i);
-			const area = cv.contourArea(contour);
-			if (area > bestArea) {
-				const approx = new cv.Mat();
-				cv.approxPolyDP(contour, approx, 0.02 * cv.arcLength(contour, true), true);
-				if (approx.rows === 4 && cv.isContourConvex(approx)) {
-					bestArea = area;
-					const pts = [];
-					for (let j = 0; j < 4; j++) {
-						pts.push({
-							x: approx.data32S[j * 2] / scale,
-							y: approx.data32S[j * 2 + 1] / scale
-						});
+			let contour = null;
+			let approx = null;
+			try {
+				contour = contours.get(i);
+				const area = cv.contourArea(contour);
+				if (area > bestArea) {
+					approx = new cv.Mat();
+					cv.approxPolyDP(contour, approx, 0.02 * cv.arcLength(contour, true), true);
+					if (approx.rows === 4 && cv.isContourConvex(approx)) {
+						bestArea = area;
+						const pts = [];
+						for (let j = 0; j < 4; j++) {
+							pts.push({
+								x: approx.data32S[j * 2] / scale,
+								y: approx.data32S[j * 2 + 1] / scale
+							});
+						}
+						best = orderCorners(pts);
 					}
-					best = orderCorners(pts);
 				}
-				approx.delete();
+			} finally {
+				if (approx) approx.delete();
+				if (contour) contour.delete();
 			}
-			contour.delete();
 		}
 	} finally {
 		src.delete();
@@ -146,19 +154,25 @@ export async function warpAndFilter(imgEl, corners, filter) {
 	const cv = await loadOpenCV();
 	const { width, height } = outputSize(corners, 1600);
 
-	const src = cv.imread(imgEl);
-	const warped = new cv.Mat();
-	const srcTri = cv.matFromArray(4, 1, cv.CV_32FC2, [
-		corners.tl.x, corners.tl.y,
-		corners.tr.x, corners.tr.y,
-		corners.br.x, corners.br.y,
-		corners.bl.x, corners.bl.y
-	]);
-	const dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, width, 0, width, height, 0, height]);
-	const M = cv.getPerspectiveTransform(srcTri, dstTri);
+	let src = null;
+	let warped = null;
+	let srcTri = null;
+	let dstTri = null;
+	let M = null;
 	const extra = [];
 
 	try {
+		src = cv.imread(imgEl);
+		warped = new cv.Mat();
+		srcTri = cv.matFromArray(4, 1, cv.CV_32FC2, [
+			corners.tl.x, corners.tl.y,
+			corners.tr.x, corners.tr.y,
+			corners.br.x, corners.br.y,
+			corners.bl.x, corners.bl.y
+		]);
+		dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, width, 0, width, height, 0, height]);
+		M = cv.getPerspectiveTransform(srcTri, dstTri);
+
 		cv.warpPerspective(
 			src, warped, M, new cv.Size(width, height),
 			cv.INTER_LINEAR, cv.BORDER_REPLICATE, new cv.Scalar()
@@ -197,11 +211,11 @@ export async function warpAndFilter(imgEl, corners, filter) {
 		});
 		return blob;
 	} finally {
-		src.delete();
-		warped.delete();
-		srcTri.delete();
-		dstTri.delete();
-		M.delete();
+		if (src) src.delete();
+		if (warped) warped.delete();
+		if (srcTri) srcTri.delete();
+		if (dstTri) dstTri.delete();
+		if (M) M.delete();
 		for (const m of extra) m.delete();
 	}
 }
