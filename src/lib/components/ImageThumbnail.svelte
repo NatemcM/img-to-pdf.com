@@ -1,8 +1,8 @@
 <script>
 	import { removeImage } from '#lib/stores/app-state.svelte.js';
-	import { X, GripVertical } from '@lucide/svelte';
+	import { X, GripVertical, ScanLine } from '@lucide/svelte';
 
-	let { image, number, onpreview } = $props();
+	let { image, number, onpreview, onscan } = $props();
 </script>
 
 <div class="relative aspect-[3/4] bg-white rounded-xl overflow-hidden border border-border-grey group hover:shadow-md transition-all">
@@ -16,7 +16,7 @@
 		<img
 			alt={image.name}
 			class="w-full h-full object-cover"
-			src={image.preview}
+			src={image.scannedPreview ?? image.preview}
 		/>
 	</button>
 
@@ -24,6 +24,24 @@
 	<div class="absolute top-2 left-2 bg-white/90 backdrop-blur text-slate-900 text-xs font-bold px-2 py-1 rounded-md border border-border-grey">
 		#{number}
 	</div>
+
+	<!-- Scanned badge -->
+	{#if image.scannedPreview}
+		<div class="absolute bottom-2 right-2 bg-teal-500/90 backdrop-blur text-white text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+			<ScanLine size={10} />
+			Scanned
+		</div>
+	{/if}
+
+	<!-- Scan button -->
+	<button
+		onclick={(e) => { e.stopPropagation(); onscan(image); }}
+		class="absolute top-2 right-11 w-7 h-7 flex items-center justify-center bg-slate-900/80 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-sm hover:bg-slate-700"
+		aria-label="Scan {image.name}"
+		title="Scan — straighten & enhance"
+	>
+		<ScanLine size={14} />
+	</button>
 
 	<!-- Remove button — fixed size circle -->
 	<button

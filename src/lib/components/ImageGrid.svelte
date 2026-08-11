@@ -3,11 +3,13 @@
 	import Sortable from 'sortablejs';
 	import { appState, reorderImages, clearAll } from '#lib/stores/app-state.svelte.js';
 	import ImageThumbnail from './ImageThumbnail.svelte';
+	import ScanEditor from './ScanEditor.svelte';
 	import { Trash2, X } from '@lucide/svelte';
 
 	let gridElement;
 	let sortableInstance;
 	let previewImage = $state(null);
+	let scanImage = $state(null);
 
 	function openPreview(image) {
 		previewImage = image;
@@ -17,8 +19,16 @@
 		previewImage = null;
 	}
 
+	function openScan(image) {
+		scanImage = image;
+	}
+
+	function closeScan() {
+		scanImage = null;
+	}
+
 	function handleKeydown(e) {
-		if (e.key === 'Escape') closePreview();
+		if (e.key === 'Escape' && !scanImage) closePreview();
 	}
 
 	onMount(() => {
@@ -63,7 +73,7 @@
 		class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mb-16"
 	>
 		{#each appState.images as image, index (image.id)}
-			<ImageThumbnail {image} number={index + 1} onpreview={openPreview} />
+			<ImageThumbnail {image} number={index + 1} onpreview={openPreview} onscan={openScan} />
 		{/each}
 	</div>
 </section>
@@ -83,7 +93,7 @@
 		<!-- svelte-ignore a11y_no_static_element_interactions a11y_click_events_have_key_events a11y_no_noninteractive_element_interactions -->
 		<div class="relative max-w-[90vw] max-h-[90vh]" role="document" onclick={(e) => e.stopPropagation()}>
 			<img
-				src={previewImage.preview}
+				src={previewImage.scannedPreview ?? previewImage.preview}
 				alt={previewImage.name}
 				class="max-w-[90vw] max-h-[85vh] object-contain rounded-lg shadow-2xl"
 			/>
@@ -99,4 +109,8 @@
 			</button>
 		</div>
 	</div>
+{/if}
+
+{#if scanImage}
+	<ScanEditor image={scanImage} onclose={closeScan} />
 {/if}
