@@ -47,6 +47,9 @@ export function removeImage(id) {
 	const index = appState.images.findIndex((img) => img.id === id);
 	if (index !== -1) {
 		URL.revokeObjectURL(appState.images[index].preview);
+		if (appState.images[index].scannedPreview) {
+			URL.revokeObjectURL(appState.images[index].scannedPreview);
+		}
 		appState.images.splice(index, 1);
 	}
 }
@@ -61,10 +64,41 @@ export function reorderImages(oldIndex, newIndex) {
 	appState.images.splice(newIndex, 0, item);
 }
 
+/**
+ * Store a scan result on an image: the processed blob, a preview object
+ * URL, and the editor settings so the scan editor can be reopened with
+ * the same corners/filter.
+ * @param {number} id
+ * @param {Blob} blob
+ * @param {{corners: object, filter: string}} settings
+ */
+export function setScanResult(id, blob, settings) {
+	const img = appState.images.find((i) => i.id === id);
+	if (!img) return;
+	if (img.scannedPreview) URL.revokeObjectURL(img.scannedPreview);
+	img.scannedBlob = blob;
+	img.scannedPreview = URL.createObjectURL(blob);
+	img.scanSettings = settings;
+}
+
+/**
+ * Remove a scan result, restoring the original image.
+ * @param {number} id
+ */
+export function resetScan(id) {
+	const img = appState.images.find((i) => i.id === id);
+	if (!img) return;
+	if (img.scannedPreview) URL.revokeObjectURL(img.scannedPreview);
+	delete img.scannedBlob;
+	delete img.scannedPreview;
+	delete img.scanSettings;
+}
+
 /** Remove all images and revoke all object URLs. */
 export function clearAll() {
 	for (const img of appState.images) {
 		URL.revokeObjectURL(img.preview);
+		if (img.scannedPreview) URL.revokeObjectURL(img.scannedPreview);
 	}
 	appState.images.length = 0;
 }

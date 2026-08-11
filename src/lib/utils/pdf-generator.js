@@ -26,7 +26,9 @@ export async function generatePdf() {
 			const imageObj = appState.images[i];
 
 			// Process image: resize + JPEG compress
-			const { bytes, width: imgW, height: imgH } = await processImage(imageObj.file);
+			const { bytes, width: imgW, height: imgH } = await processImage(
+				imageObj.scannedBlob ?? imageObj.file
+			);
 			setProgress(Math.round(((i + 0.5) / totalImages) * 100));
 
 			// Embed JPEG into PDF
