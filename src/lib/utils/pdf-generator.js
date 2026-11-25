@@ -1,6 +1,6 @@
 import { PDFDocument, PageSizes } from 'pdf-lib';
 import { processImage } from './image-processor.js';
-import { appState, setIsGenerating, setProgress } from '$lib/stores/app-state.svelte.js';
+import { appState, setIsGenerating, setProgress } from '#lib/stores/app-state.svelte.js';
 
 const PAGE_SIZE_MAP = {
 	a4: PageSizes.A4, // [595.28, 841.89]

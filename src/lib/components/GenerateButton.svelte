@@ -1,8 +1,8 @@
 <script>
-	import { appState, setError, setSuccess, setIsSendingEmail } from '$lib/stores/app-state.svelte.js';
-	import { generatePdf } from '$lib/utils/pdf-generator.js';
-	import { downloadBlob } from '$lib/utils/file-helpers.js';
-	import { Send, Download, Lock, Zap, CheckCheck } from 'lucide-svelte';
+	import { appState, setError, setSuccess, setIsSendingEmail } from '#lib/stores/app-state.svelte.js';
+	import { generatePdf } from '#lib/utils/pdf-generator.js';
+	import { downloadBlob } from '#lib/utils/file-helpers.js';
+	import { Send, Download, Lock, Zap, CheckCheck } from '@lucide/svelte';
 
 	let canGenerate = $derived(appState.images.length > 0 && !appState.isGenerating && !appState.isSendingEmail);
 	let hasEmail = $derived(appState.email.trim().length > 0);

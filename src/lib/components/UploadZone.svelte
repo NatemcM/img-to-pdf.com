@@ -1,7 +1,7 @@
 <script>
-	import { appState, addImages, setError } from '$lib/stores/app-state.svelte.js';
-	import { validateFile } from '$lib/utils/file-helpers.js';
-	import { CloudUpload, ImagePlus } from 'lucide-svelte';
+	import { appState, addImages, setError } from '#lib/stores/app-state.svelte.js';
+	import { validateFile } from '#lib/utils/file-helpers.js';
+	import { CloudUpload, ImagePlus } from '@lucide/svelte';
 
 	let isDragging = $state(false);
 	let fileInput;

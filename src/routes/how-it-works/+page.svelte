@@ -1,5 +1,5 @@
 <script>
-  import { ShieldCheck, FileUp, AlignJustify, CircleCheckBig, CloudOff, EyeOff, Gauge, ArrowRight } from 'lucide-svelte';
+  import { ShieldCheck, FileUp, AlignJustify, CircleCheckBig, CloudOff, EyeOff, Gauge, ArrowRight } from '@lucide/svelte';
 </script>
 
 <svelte:head>

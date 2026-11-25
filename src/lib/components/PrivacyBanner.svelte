@@ -1,5 +1,5 @@
 <script>
-	import { ShieldCheck } from 'lucide-svelte';
+	import { ShieldCheck } from '@lucide/svelte';
 </script>
 
 <div class="mb-10 p-4 bg-safety-bg border border-green-100 rounded-xl flex items-center gap-4">

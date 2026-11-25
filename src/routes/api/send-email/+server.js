@@ -1,6 +1,6 @@
-import { json, error } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import { Resend } from 'resend';
-import { env } from '$env/dynamic/private';
+import { RESEND_API_KEY, ALLOWED_EMAIL } from '$app/env/private';
 
 // --- VULN-002 FIX: In-memory rate limiter ---
 const RATE_LIMIT = { maxRequests: 3, windowMs: 15 * 60 * 1000 }; // 3 per 15 min
@@ -53,7 +53,7 @@ export async function POST({ request, getClientAddress }) {
 	// --- VULN-002 FIX: Check rate limit ---
 	const clientIp = getClientAddress();
 	if (isRateLimited(clientIp)) {
-		return json({ success: false, message: 'Too many requests. Please try again later.' }, { status: 429 });
+		return Response.json({ success: false, message: 'Too many requests. Please try again later.' }, { status: 429 });
 	}
 
 	// --- VULN-007 FIX: Validate body exists ---
@@ -61,24 +61,24 @@ export async function POST({ request, getClientAddress }) {
 	try {
 		body = await request.json();
 	} catch {
-		return error(400, { message: 'Invalid request body.' });
+		error(400, 'Invalid request body.');
 	}
 
 	if (!body || typeof body !== 'object') {
-		return error(400, { message: 'Invalid request body.' });
+		error(400, 'Invalid request body.');
 	}
 
 	// --- VULN-003 FIX: Stronger email validation with length check ---
 	const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
 	if (!email || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-		return error(400, { message: 'A valid email address is required.' });
+		error(400, 'A valid email address is required.');
 	}
 
 	// Restrict to allowed recipient if configured
-	if (env.ALLOWED_EMAIL) {
-		const allowed = env.ALLOWED_EMAIL.toLowerCase();
+	if (ALLOWED_EMAIL) {
+		const allowed = ALLOWED_EMAIL.toLowerCase();
 		if (email !== allowed) {
-			return json({ success: false, message: 'This email address is not authorized to receive PDFs.' }, { status: 403 });
+			return Response.json({ success: false, message: 'This email address is not authorized to receive PDFs.' }, { status: 403 });
 		}
 	}
 
@@ -88,26 +88,26 @@ export async function POST({ request, getClientAddress }) {
 	// Validate PDF attachment data
 	const pdfData = typeof body.pdfData === 'string' ? body.pdfData : '';
 	if (!pdfData) {
-		return error(400, { message: 'PDF data is required.' });
+		error(400, 'PDF data is required.');
 	}
 
 	// Limit attachment size (10MB base64 ≈ ~7.5MB raw)
 	const MAX_PDF_BASE64_SIZE = 10 * 1024 * 1024;
 	if (pdfData.length > MAX_PDF_BASE64_SIZE) {
-		return error(400, { message: 'PDF file is too large to send by email.' });
+		error(400, 'PDF file is too large to send by email.');
 	}
 
 	// Validate base64 format
 	if (!/^[A-Za-z0-9+/=]+$/.test(pdfData)) {
-		return error(400, { message: 'Invalid PDF data.' });
+		error(400, 'Invalid PDF data.');
 	}
 
-	if (!env.RESEND_API_KEY) {
-		return json({ success: false, message: 'Email service not configured.' }, { status: 503 });
+	if (!RESEND_API_KEY) {
+		return Response.json({ success: false, message: 'Email service not configured.' }, { status: 503 });
 	}
 
 	try {
-		const resend = new Resend(env.RESEND_API_KEY);
+		const resend = new Resend(RESEND_API_KEY);
 
 		// --- VULN-001 FIX: HTML-escape filename before interpolation ---
 		const safeFilename = escapeHtml(filename);
@@ -137,10 +137,10 @@ export async function POST({ request, getClientAddress }) {
 			]
 		});
 
-		return json({ success: true, message: 'Email sent successfully.' });
+		return Response.json({ success: true, message: 'Email sent successfully.' });
 	} catch (err) {
 		// --- VULN-006 FIX: Only log error message, not full object ---
 		console.error('Email send error:', err.message);
-		return json({ success: false, message: 'Failed to send email.' }, { status: 500 });
+		return Response.json({ success: false, message: 'Failed to send email.' }, { status: 500 });
 	}
 }

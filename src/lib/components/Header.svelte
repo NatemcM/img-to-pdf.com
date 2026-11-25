@@ -1,5 +1,5 @@
 <script>
-  import { FileText, ShieldCheck } from 'lucide-svelte';
+  import { FileText, ShieldCheck } from '@lucide/svelte';
 </script>
 
 <header

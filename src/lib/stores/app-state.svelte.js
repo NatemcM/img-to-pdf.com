@@ -1,4 +1,4 @@
-import { generateId } from '$lib/utils/file-helpers.js';
+import { generateId } from '#lib/utils/file-helpers.js';
 
 /**
  * Single reactive state object. Exported directly — only properties are mutated,

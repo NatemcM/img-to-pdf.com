@@ -1,7 +1,7 @@
-import { env } from '$env/dynamic/private';
+import { RESEND_API_KEY } from '$app/env/private';
 
 export function load() {
 	return {
-		emailEnabled: !!env.RESEND_API_KEY
+		emailEnabled: !!RESEND_API_KEY
 	};
 }

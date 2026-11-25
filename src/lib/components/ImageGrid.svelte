@@ -1,9 +1,9 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
 	import Sortable from 'sortablejs';
-	import { appState, reorderImages, clearAll } from '$lib/stores/app-state.svelte.js';
+	import { appState, reorderImages, clearAll } from '#lib/stores/app-state.svelte.js';
 	import ImageThumbnail from './ImageThumbnail.svelte';
-	import { Trash2, X } from 'lucide-svelte';
+	import { Trash2, X } from '@lucide/svelte';
 
 	let gridElement;
 	let sortableInstance;

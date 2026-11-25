@@ -1,6 +1,6 @@
 <script>
-	import { removeImage } from '$lib/stores/app-state.svelte.js';
-	import { X, GripVertical } from 'lucide-svelte';
+	import { removeImage } from '#lib/stores/app-state.svelte.js';
+	import { X, GripVertical } from '@lucide/svelte';
 
 	let { image, number, onpreview } = $props();
 </script>

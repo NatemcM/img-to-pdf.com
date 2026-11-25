@@ -1,5 +1,5 @@
 <script>
-  import { Heart, ArrowLeft } from 'lucide-svelte';
+  import { Heart, ArrowLeft } from '@lucide/svelte';
 </script>
 
 <svelte:head>

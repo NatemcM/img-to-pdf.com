@@ -1,11 +1,11 @@
 <script>
-	import PrivacyBanner from '$lib/components/PrivacyBanner.svelte';
-	import UploadZone from '$lib/components/UploadZone.svelte';
-	import ImageGrid from '$lib/components/ImageGrid.svelte';
-	import SettingsForm from '$lib/components/SettingsForm.svelte';
-	import GenerateButton from '$lib/components/GenerateButton.svelte';
-	import { appState, setError, setSuccess } from '$lib/stores/app-state.svelte.js';
-	import { CheckCircle, X, AlertCircle } from 'lucide-svelte';
+	import PrivacyBanner from '#lib/components/PrivacyBanner.svelte';
+	import UploadZone from '#lib/components/UploadZone.svelte';
+	import ImageGrid from '#lib/components/ImageGrid.svelte';
+	import SettingsForm from '#lib/components/SettingsForm.svelte';
+	import GenerateButton from '#lib/components/GenerateButton.svelte';
+	import { appState, setError, setSuccess } from '#lib/stores/app-state.svelte.js';
+	import { CheckCircle, X, AlertCircle } from '@lucide/svelte';
 
 	let { data } = $props();
 </script>

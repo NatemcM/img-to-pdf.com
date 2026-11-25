@@ -1,6 +1,6 @@
 <script>
-	import { appState, setFilename, setPageSize, setEmail } from '$lib/stores/app-state.svelte.js';
-	import { SlidersHorizontal, Mail } from 'lucide-svelte';
+	import { appState, setFilename, setPageSize, setEmail } from '#lib/stores/app-state.svelte.js';
+	import { SlidersHorizontal, Mail } from '@lucide/svelte';
 
 	let { emailEnabled = false } = $props();
 </script>

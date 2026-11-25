@@ -1,5 +1,5 @@
 <script>
-	import { BadgeCheck, Mail, Link, Share2 } from 'lucide-svelte';
+	import { BadgeCheck, Mail, Link, Share2 } from '@lucide/svelte';
 
 	const siteUrl = 'https://img-to-pdf.com';
 	const shareText = 'Convert images to PDF privately in your browser — no uploads, no tracking.';

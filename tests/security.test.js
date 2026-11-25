@@ -83,13 +83,13 @@ describe('VULN-003: Email validation robustness', () => {
 // ========================================================================
 // VULN-004: No Content-Security-Policy headers
 // Severity: MEDIUM
-// Location: svelte.config.js (CSP) + src/hooks.server.js (other headers)
+// Location: vite.config.js (CSP) + src/hooks.server.js (other headers)
 // ========================================================================
 describe('VULN-004: Security headers (CSP)', () => {
-	it('should configure CSP directives in svelte.config.js', () => {
-		const config = readFileSync(resolve(process.cwd(), 'svelte.config.js'), 'utf-8');
+	it('should configure CSP directives in vite.config.js', () => {
+		const config = readFileSync(resolve(process.cwd(), 'vite.config.js'), 'utf-8');
 		const hasCSP = config.includes('csp') && config.includes('script-src');
-		expect(hasCSP, 'svelte.config.js should define CSP directives').toBe(true);
+		expect(hasCSP, 'vite.config.js should define CSP directives').toBe(true);
 	});
 
 	it('should have a hooks.server.js file that sets security headers', () => {
