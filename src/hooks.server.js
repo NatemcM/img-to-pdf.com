@@ -2,7 +2,7 @@
 export async function handle({ event, resolve }) {
 	const response = await resolve(event);
 
-	// CSP is handled by SvelteKit's built-in csp config in svelte.config.js
+	// CSP is handled by SvelteKit's built-in csp config in vite.config.js
 	// which automatically generates nonces for inline scripts.
 
 	// Prevent MIME-type sniffing

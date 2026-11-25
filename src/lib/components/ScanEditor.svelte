@@ -1,9 +1,9 @@
 <script>
 	import { onMount } from 'svelte';
-	import { X, Loader2, RotateCcw } from 'lucide-svelte';
-	import { loadOpenCV, detectCorners, warpAndFilter } from '$lib/utils/scan-processor.js';
-	import { defaultCorners, isValidQuad } from '$lib/utils/scan-geometry.js';
-	import { setScanResult, resetScan } from '$lib/stores/app-state.svelte.js';
+	import { X, Loader2, RotateCcw } from '@lucide/svelte';
+	import { loadOpenCV, detectCorners, warpAndFilter } from '#lib/utils/scan-processor.js';
+	import { defaultCorners, isValidQuad } from '#lib/utils/scan-geometry.js';
+	import { setScanResult, resetScan } from '#lib/stores/app-state.svelte.js';
 
 	let { image, onclose } = $props();
 
